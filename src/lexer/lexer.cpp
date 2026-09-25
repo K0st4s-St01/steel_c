@@ -127,7 +127,7 @@ std::string tokenTypeToString(TokenType type) {
   case TokenType::SEMICOLON:
     return "SEMICOLON";
   case TokenType::COMMA:
-    return "COMMAreturn ";
+    return "COMMA";
   case TokenType::DOT:
     return "DOT";
   case TokenType::LPAREN:
@@ -178,9 +178,18 @@ std::string tokenTypeToString(TokenType type) {
     return "ELLIPSIS";
   case TokenType::MINUS_MINUS:
     return "MINUS_MINUS";
+  default:
+    return "<ERROR:UNKNOWN>";
   }
 }
 
+bool Lexer::isHexPrefix() const {
+  return peek() == '0' && (peekNext() == 'x' || peekNext() == 'X');
+}
+
+bool Lexer::isBinaryPrefix() const {
+  return peek() == '0' && (peekNext() == 'b' || peekNext() == 'B');
+}
 Lexer::Lexer(std::string source, std::string filename)
     : source_(std::move(source)), filename_(std::move(filename)) {}
 
@@ -557,12 +566,13 @@ Token Lexer::nextToken() {
   }
   }
 }
-std::vector<Token> Lexer::tokenize(){
+std::vector<Token> Lexer::tokenize() {
   std::vector<Token> tokens;
-  while(true){
+  while (true) {
     Token tok = nextToken();
     tokens.push_back(tok);
-    if (tok.type == TokenType::END_OF_FILE) break;
+    if (tok.type == TokenType::END_OF_FILE)
+      break;
   }
   return tokens;
 }

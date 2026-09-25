@@ -1,14 +1,19 @@
 cmake_minimum_required(VERSION 3.20)
 
-project(my_language
+project(steel_compiler
     VERSION 0.1.0
     LANGUAGES CXX
 )
+
+# --------------------------------------------------
+# C++ Standard
+# --------------------------------------------------
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
+# Generate compile_commands.json
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # --------------------------------------------------
@@ -24,46 +29,39 @@ message(STATUS "LLVM include dirs: ${LLVM_INCLUDE_DIRS}")
 # Sources
 # --------------------------------------------------
 
-file(GLOB_RECURSE SOURCES
+file(GLOB_RECURSE STEEL_SOURCES
     CONFIGURE_DEPENDS
-    src/*.cpp
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp"
 )
 
 # --------------------------------------------------
 # Executable
 # --------------------------------------------------
 
-add_executable(my_language
-    ${SOURCES}
+add_executable(steel_compiler
+    ${STEEL_SOURCES}
 )
 
 # --------------------------------------------------
-# Includes
+# LLVM Includes
 # --------------------------------------------------
 
-target_include_directories(my_language PRIVATE
-    ${PROJECT_SOURCE_DIR}/src
+target_include_directories(steel_compiler PRIVATE
     ${LLVM_INCLUDE_DIRS}
 )
 
 # --------------------------------------------------
-# LLVM definitions
+# LLVM Definitions
 # --------------------------------------------------
 
-target_compile_definitions(my_language PRIVATE
+target_compile_definitions(steel_compiler PRIVATE
     ${LLVM_DEFINITIONS}
 )
 
 # --------------------------------------------------
-# LLVM libraries
+# LLVM Libraries
 # --------------------------------------------------
 
-llvm_map_components_to_libnames(LLVM_LIBS
-    core
-    support
-    irreader
-)
-
-target_link_libraries(my_language PRIVATE
+target_link_libraries(steel_compiler PRIVATE
     ${LLVM_LIBS}
 )
