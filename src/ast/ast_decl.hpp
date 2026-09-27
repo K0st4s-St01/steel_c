@@ -25,13 +25,24 @@ struct FunctionDecl : Decl{
   std::vector<Param> params;
   bool isVarArgs;
   bool isPrototype;
-  StmtPtr bodt;
+  StmtPtr body;
+};
+
+struct MethodDecl: Decl{
+  Type returnType;
+  std::string name;
+  std::vector<Param> params;
+  bool isVarArgs;
+  bool isPrototype;
+  StmtPtr body;
+
 };
 
 struct StructDecl : Decl{
   std::string name;
   std::vector<std::string> genericParams;
   std::vector<std::unique_ptr<VarDecl>> fields;
+  std::vector<std::unique_ptr<MethodDecl>> methods;
 };
 
 struct Enumerator{
