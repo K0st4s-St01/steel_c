@@ -47,6 +47,16 @@ struct Type {
   Type() = default;
 };
 
-struct Expr :ASTNode{using ASTNode::ASTNode;};
-struct Stmt :ASTNode{using ASTNode::ASTNode;};
-struct Decl :ASTNode{using ASTNode::ASTNode;};
+struct Expr : ASTNode {
+  using ASTNode::ASTNode;
+};
+struct Stmt : ASTNode {
+  using ASTNode::ASTNode;
+};
+struct Decl : ASTNode {
+  using ASTNode::ASTNode;
+};
+
+using ExprPtr = std::unique_ptr<Expr>;
+using StmtPtr = std::unique_ptr<Stmt>;
+using DeclPtr = std::unique_ptr<Decl>;
