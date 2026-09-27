@@ -99,7 +99,13 @@ enum class TokenType {
   CARET_EQ,
   ARROW,
   ELLIPSIS,
-  MINUS_MINUS
+  MINUS_MINUS,
+//shifts
+  LT_LT,
+  GT_GT,
+  LT_LT_EQ,
+  GT_GT_EQ,
+  
 };
 
 std::string tokenTypeToString(TokenType type);

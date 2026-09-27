@@ -17,7 +17,7 @@ private:
   const Token &peekNext() const;
   const Token &previous() const;
 
-private:
+private://TOKENS
   bool isAtEnd() const;
   bool check(TokenType t) const;
   bool checkNext(TokenType t) const;
@@ -30,7 +30,7 @@ private:
   bool canBeTypeStart() const;
   bool isAssignementOp(TokenType t) const;
 
-private:
+private://DECL
   std::unique_ptr<Module> parseModule();
   DeclPtr parseImport();
   Type parseType();
@@ -50,7 +50,7 @@ private:
   DeclPtr parseMethod(Type returnType, std::string name, SourceLocation loc);
   DeclPtr parseEnum(Type &baseType, SourceLocation loc);
 
-private:
+private://STMT
   StmtPtr parseStatement();
   StmtPtr parseCompoundStatement();
   StmtPtr parseIfStatement();
@@ -62,12 +62,26 @@ private:
   StmtPtr parseReturnStatement();
   StmtPtr parseBreakStatement();
   StmtPtr parseContinueStatement();
+  StmtPtr parseExpressionStatement();
 
-private:
+private://EXPR
+  ExprPtr parseExpr();
+  ExprPtr parseAssignment();
+  ExprPtr parseConditional();
+  ExprPtr parseLogicalOr();
+  ExprPtr parseLogicalAnd();
+  ExprPtr parseBitwiseOr();
+  ExprPtr parseBitwiseXor();
+  ExprPtr parseBitwiseAnd();
+  ExprPtr parseEquality();
+  ExprPtr parseRelational();
+  ExprPtr parseShift();
+  ExprPtr parsePostfix();
+  ExprPtr parseCallOrPostfixWithCallee(ExprPtr callee);
+  ExprPtr parseInitializer();
+  
 public:
-  explicit Parser(std::vector<Token> tokens,std::string filename="<input>"){
-    
-  }
+  explicit Parser(std::vector<Token> tokens,std::string filename="<input>");
   std::unique_ptr<Module> parse();
   const inline std::vector<std::string>& getErrors() const {return errors_;}
 };

@@ -178,8 +178,17 @@ std::string tokenTypeToString(TokenType type) {
     return "ELLIPSIS";
   case TokenType::MINUS_MINUS:
     return "MINUS_MINUS";
+  case TokenType::LT_LT:
+    return "LT_LT";
+  case TokenType::GT_GT:
+    return "GT_GT";
+  case TokenType::LT_LT_EQ:
+    return "LT_LT_EQ";
+  case TokenType::GT_GT_EQ:
+    return "GT_GT_EQ";
   default:
     return "<ERROR:UNKNOWN>";
+    break;
   }
 }
 
@@ -494,12 +503,24 @@ Token Lexer::nextToken() {
   }
   case '<': {
     advance();
+    if (match('<')) {
+      if (match('=')) {
+        return makeToken(TokenType::LT_LT_EQ, "<<=", start);
+      }
+      return makeToken(TokenType::LT_LT, "<<", start);
+    }
     if (match('='))
       return makeToken(TokenType::LT_EQ, "<=", start);
     return makeToken(TokenType::LT, "<", start);
   }
   case '>': {
     advance();
+    if (match('>')) {
+      if (match('=')) {
+        return makeToken(TokenType::GT_GT_EQ, "<<=", start);
+      }
+      return makeToken(TokenType::GT_GT, "<<", start);
+    }
     if (match('='))
       return makeToken(TokenType::GT_EQ, ">=", start);
     return makeToken(TokenType::GT, ">", start);
