@@ -4,3 +4,11 @@
 struct CompoundStmt : Stmt{
   std::vector<StmtPtr> stmts;
 };
+
+struct DeclStmt : Stmt{
+  DeclPtr decl;
+};
+
+struct ExprStmt : Stmt{
+  ExprPtr expr;
+};
